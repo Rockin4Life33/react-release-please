@@ -1,0 +1,22 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          target-branch: ${{ github.ref_name }}
+          config-file: ${{ github.ref_name == 'develop' && 'release-please-config.prerelease.json' || 'release-please-config.json' }}
+          manifest-file: ${{ github.ref_name == 'develop' && '.release-please-manifest.prerelease.json' || '.release-please-manifest.json' }}
